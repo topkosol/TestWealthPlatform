@@ -11,7 +11,7 @@ type NoteSort = "dueDate" | "priority";
 const PRIORITY_RANK: Record<Priority, number> = { High: 0, Medium: 1, Low: 2 };
 
 export default function NotesModule() {
-  const { notes, setNotes, clients } = useApp();
+  const { notes, addNote, toggleNote, clients } = useApp();
   const [filter, setFilter] = useState<NoteFilter>("All");
   const [sort, setSort] = useState<NoteSort>("dueDate");
   const [showNew, setShowNew] = useState(false);
@@ -44,22 +44,17 @@ export default function NotesModule() {
   function submit() {
     const trimmed = text.trim();
     if (!trimmed) return;
-    setNotes((prev) => [
-      {
-        id: "N-" + Date.now(),
-        text: trimmed,
-        priority,
-        dueDate: due || new Date().toISOString().slice(0, 10),
-        done: false,
-        clientId: linkedClient || null,
-      },
-      ...prev,
-    ]);
+    addNote({
+      text: trimmed,
+      priority,
+      dueDate: due || new Date().toISOString().slice(0, 10),
+      clientId: linkedClient || null,
+    });
     resetForm();
   }
 
   function toggleDone(id: string) {
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, done: !n.done } : n)));
+    toggleNote(id);
   }
 
   const filterChip = (key: NoteFilter, label: string, activeBg: string) => {
