@@ -4,13 +4,14 @@ import { SEG_META } from "../../theme";
 import { fmtMoney, fmtCompact } from "../../utils/format";
 import type { AumBreakdown, RiskProfile } from "../../types";
 import DonutChart from "../Client360/DonutChart";
-import { ASSET_KEYS, MODEL_PORTFOLIOS, RISK_PROFILES, type AssetKey } from "./modelPortfolios";
+import { ASSET_KEYS, RISK_PROFILES, type AssetKey } from "./modelPortfolios";
+import type { ModelPortfolios } from "../../types";
 import "./PortfolioPreferenceModule.css";
 
 const DRIFT_THRESHOLD_PCT = 0.5; // ignore drift below this % of total AUM
 
-function weightsFromModel(risk: RiskProfile): Record<AssetKey, number> {
-  return { ...MODEL_PORTFOLIOS[risk] };
+function weightsFromModel(modelPortfolios: ModelPortfolios, risk: RiskProfile): Record<AssetKey, number> {
+  return { ...modelPortfolios[risk] };
 }
 
 function adjustWeights(weights: Record<AssetKey, number>, changedKey: AssetKey, rawValue: number): Record<AssetKey, number> {
@@ -40,10 +41,10 @@ function adjustWeights(weights: Record<AssetKey, number>, changedKey: AssetKey, 
 }
 
 export default function PortfolioPreferenceModule() {
-  const { clients, selectedClientId, setSelectedClientId } = useApp();
+  const { clients, selectedClientId, setSelectedClientId, modelPortfolios } = useApp();
   const [search, setSearch] = useState("");
   const [targetRisk, setTargetRisk] = useState<RiskProfile>("Balanced");
-  const [weights, setWeights] = useState<Record<AssetKey, number>>(weightsFromModel("Balanced"));
+  const [weights, setWeights] = useState<Record<AssetKey, number>>(weightsFromModel(modelPortfolios, "Balanced"));
 
   const client = clients.find((c) => c.id === selectedClientId) || clients[0];
 
@@ -55,7 +56,7 @@ export default function PortfolioPreferenceModule() {
   // Reset the target preference to the client's own risk profile whenever the selected client changes.
   useEffect(() => {
     setTargetRisk(client.riskProfile);
-    setWeights(weightsFromModel(client.riskProfile));
+    setWeights(weightsFromModel(modelPortfolios, client.riskProfile));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client.id]);
 
@@ -94,7 +95,7 @@ export default function PortfolioPreferenceModule() {
 
   function handleRiskSelect(risk: RiskProfile) {
     setTargetRisk(risk);
-    setWeights(weightsFromModel(risk));
+    setWeights(weightsFromModel(modelPortfolios, risk));
   }
 
   function handleSlider(key: AssetKey, value: number) {
@@ -177,8 +178,8 @@ export default function PortfolioPreferenceModule() {
                 role="button"
                 tabIndex={0}
                 className="port-pref-reset-btn"
-                onClick={() => setWeights(weightsFromModel(targetRisk))}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setWeights(weightsFromModel(targetRisk)); } }}
+                onClick={() => setWeights(weightsFromModel(modelPortfolios, targetRisk))}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setWeights(weightsFromModel(modelPortfolios, targetRisk)); } }}
               >
                 Reset to model
               </div>

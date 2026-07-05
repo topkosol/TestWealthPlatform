@@ -2,20 +2,13 @@ import { useState } from "react";
 import { useApp } from "../../context/AppContext";
 import { ACCENT, STATUS_META } from "../../theme";
 import { fmtMoney } from "../../utils/format";
-import type { Currency, Order } from "../../types";
+import type { Currency } from "../../types";
 import "./StructuredOrderModule.css";
-
-const COUPON_BASE: Record<string, number> = {
-  "Autocall Memory": 8.5,
-  "Reverse Convertible": 6.8,
-  "Twin-Win": 5.4,
-  "Fixed Coupon": 4.2,
-};
 
 type QuoteState = "idle" | "loading" | "quoted";
 
 export default function StructuredOrderModule() {
-  const { clients, underlyingOptions, orders, setOrders } = useApp();
+  const { clients, underlyingOptions, orders, requestQuote: requestQuoteApi, bookOrder: bookOrderApi } = useApp();
 
   const [underlyings, setUnderlyings] = useState<string[]>([]);
   const [tenor, setTenor] = useState("3Y");
@@ -33,7 +26,7 @@ export default function StructuredOrderModule() {
     setUnderlyings((prev) => (prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]));
   }
 
-  function requestQuote() {
+  async function requestQuote() {
     if (underlyings.length === 0) return setError("Select at least one underlying.");
     if (!notional || notional <= 0) return setError("Enter a valid notional.");
     if (!clientId) return setError("Select a client account.");
@@ -41,47 +34,41 @@ export default function StructuredOrderModule() {
     setQuoteState("loading");
     setQuote(null);
     setBookSuccess(false);
-    const base = COUPON_BASE[couponType] || 6;
-    const barrierAdj = (90 - barrier) * 0.06;
-    // NOTE: This uses a deterministic offset seeded from form inputs for the mock/demo only.
-    // In production, indicative quotes MUST be fetched from a pricing server over an authenticated API.
-    // Never derive financial quotes client-side using Math.random() or any PRNG.
-    const mockSeed = (underlyings.length * 0.3 + barrier * 0.01 + notional * 0.000001) % 1;
-    const coupon = +(base + barrierAdj + (mockSeed * 1.2 - 0.6)).toFixed(2);
-    const price = +(99.4 + mockSeed * 1.2).toFixed(2);
-    setTimeout(() => {
+    try {
+      const result = await requestQuoteApi({ underlyingsCount: underlyings.length, barrier, notional, couponType });
       setQuoteState("quoted");
-      setQuote({ coupon, price });
-    }, 1200);
+      setQuote({ coupon: result.indicativeCoupon, price: result.indicativePrice });
+    } catch (e) {
+      setQuoteState("idle");
+      setError(e instanceof Error ? e.message : "Failed to request quote.");
+    }
   }
 
-  function bookOrder() {
+  async function bookOrder() {
     if (!quote) return;
     const client = clients.find((c) => c.id === clientId);
-    // Generate a collision-resistant ID based on timestamp rather than list length,
-    // since list length shifts when orders are filtered or removed.
-    const order: Order = {
-      id: "ORD-" + (Date.now() % 1_000_000),
-      clientId,
-      clientName: client ? client.name : "",
-      underlyings: [...underlyings],
-      tenor,
-      barrier,
-      couponType,
-      notional,
-      currency,
-      status: "Booked",
-      quote: { indicativeCoupon: quote.coupon, indicativePrice: quote.price },
-      createdDate: new Date().toISOString().slice(0, 10),
-    };
-    setOrders((prev) => [order, ...prev]);
-    setQuoteState("idle");
-    setQuote(null);
-    setUnderlyings([]);
-    setNotional(250000);
-    setError("");
-    setBookSuccess(true);
-    setTimeout(() => setBookSuccess(false), 3500);
+    try {
+      await bookOrderApi({
+        clientId,
+        clientName: client ? client.name : "",
+        underlyings: [...underlyings],
+        tenor,
+        barrier,
+        couponType,
+        notional,
+        currency,
+        quote: { indicativeCoupon: quote.coupon, indicativePrice: quote.price },
+      });
+      setQuoteState("idle");
+      setQuote(null);
+      setUnderlyings([]);
+      setNotional(250000);
+      setError("");
+      setBookSuccess(true);
+      setTimeout(() => setBookSuccess(false), 3500);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to book order.");
+    }
   }
 
   return (
