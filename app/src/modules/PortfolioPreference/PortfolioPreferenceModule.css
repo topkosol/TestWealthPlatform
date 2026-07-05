@@ -1,0 +1,255 @@
+.port-pref-module {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.port-pref-list-panel {
+  width: 280px;
+  flex: none;
+  background: #fff;
+  border: 1px solid rgba(20, 30, 25, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.port-pref-list-search {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(20, 30, 25, 0.07);
+}
+
+.port-pref-list-search-input {
+  width: 100%;
+  padding: 8px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(20, 30, 25, 0.12);
+  font-size: 12.5px;
+  outline: none;
+}
+
+.port-pref-list-scroll {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.port-pref-list-row {
+  padding: 13px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(20, 30, 25, 0.05);
+}
+
+.port-pref-detail-panel {
+  flex: 1;
+  min-width: 0;
+}
+
+.port-pref-card {
+  background: #fff;
+  border: 1px solid rgba(20, 30, 25, 0.08);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+}
+
+.port-pref-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.port-pref-client-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #182620;
+}
+
+.port-pref-client-id {
+  font-size: 12.5px;
+  color: rgba(24, 38, 32, 0.5);
+  margin-top: 4px;
+}
+
+.port-pref-aum-label {
+  font-size: 11.5px;
+  color: rgba(24, 38, 32, 0.5);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: right;
+}
+
+.port-pref-aum-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #182620;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.port-pref-risk-selector {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(20, 30, 25, 0.07);
+}
+
+.port-pref-risk-selector-label {
+  font-size: 11px;
+  color: rgba(24, 38, 32, 0.5);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+}
+
+.port-pref-risk-selector-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.port-pref-risk-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(20, 30, 25, 0.12);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.port-pref-reset-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(24, 38, 32, 0.55);
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 4px;
+}
+
+.port-pref-donuts {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.port-pref-donut-col {
+  flex: 1;
+  min-width: 300px;
+}
+
+.port-pref-donut-title {
+  font-size: 11.5px;
+  color: rgba(24, 38, 32, 0.5);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.port-pref-sliders {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(20, 30, 25, 0.07);
+}
+
+.port-pref-sliders-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: rgba(24, 38, 32, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 14px;
+}
+
+.port-pref-slider-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 56px 90px;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+
+.port-pref-slider-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #182620;
+}
+
+.port-pref-slider-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  flex: none;
+  display: inline-block;
+}
+
+.port-pref-slider-input {
+  width: 100%;
+  accent-color: #1f5f4a;
+}
+
+.port-pref-slider-value {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #182620;
+  text-align: right;
+}
+
+.port-pref-slider-target-value {
+  font-size: 12.5px;
+  color: rgba(24, 38, 32, 0.55);
+  text-align: right;
+}
+
+.port-pref-trades-card {
+  background: #fff;
+  border: 1px solid rgba(20, 30, 25, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.port-pref-trades-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(20, 30, 25, 0.08);
+}
+
+.port-pref-trades-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #182620;
+}
+
+.port-pref-trades-subtitle {
+  font-size: 12.5px;
+  color: rgba(24, 38, 32, 0.5);
+  margin-top: 4px;
+}
+
+.port-pref-trades-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.port-pref-trades-table th {
+  font-size: 11px;
+  color: rgba(24, 38, 32, 0.5);
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 12px 16px;
+}
+
+.port-pref-trades-table td {
+  padding: 13px 16px;
+  font-size: 13px;
+  color: #182620;
+  border-top: 1px solid rgba(20, 30, 25, 0.06);
+}

@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+/* NOTE: The Google Fonts CDN import above will fail in air-gapped or firewall-restricted environments.
+   For production, self-host font files and use @font-face with font-display: swap. */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Inter", system-ui, sans-serif;
+  background: #F7F8F6;
+  color: #182620;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 30, 25, 0.18);
+  border-radius: 5px;
+}
+
+input, select, textarea, button {
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Global focus-visible ring for keyboard navigation (WCAG 2.1 SC 2.4.7) */
+:focus-visible {
+  outline: 2px solid #1F5F4A;
+  outline-offset: 2px;
+}
+
+/* Suppress outline for mouse users while keeping it for keyboard users */
+:focus:not(:focus-visible) {
+  outline: none;
+}

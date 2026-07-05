@@ -1,0 +1,146 @@
+.cal-module {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.cal-grid-panel {
+  flex: 1;
+  background: #fff;
+  border: 1px solid rgba(20, 30, 25, 0.08);
+  border-radius: 14px;
+  padding: 20px;
+  min-width: 0;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.cal-month-label {
+  font-size: 18px;
+  font-weight: 800;
+  color: #182620;
+}
+
+.cal-header-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cal-legend {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(24, 38, 32, 0.55);
+  margin-right: 6px;
+}
+
+.cal-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 5px;
+}
+
+.cal-nav-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(20, 30, 25, 0.12);
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.cal-weekday {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(24, 38, 32, 0.4);
+  padding: 4px 0;
+}
+
+.cal-cells {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.cal-cell {
+  min-height: 78px;
+  border-radius: 9px;
+  padding: 7px;
+}
+
+.cal-cell-day {
+  font-size: 12px;
+  font-weight: 700;
+  color: #182620;
+}
+
+.cal-cell-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 5px;
+}
+
+.cal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+}
+
+.cal-cell-count {
+  font-size: 10px;
+  color: rgba(24, 38, 32, 0.45);
+  margin-top: 4px;
+}
+
+.cal-side-panel {
+  width: 300px;
+  flex: none;
+  background: #fff;
+  border: 1px solid rgba(20, 30, 25, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.cal-side-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #182620;
+  margin-bottom: 14px;
+}
+
+.cal-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cal-event-card {
+  border: 1px solid rgba(20, 30, 25, 0.08);
+  border-radius: 10px;
+  padding: 11px 12px;
+}
+
+.cal-empty {
+  font-size: 12.5px;
+  color: rgba(24, 38, 32, 0.45);
+  line-height: 1.6;
+}
