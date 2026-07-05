@@ -129,3 +129,7 @@ export interface RmProfile {
 }
 
 export type ModuleKey = "notes" | "client360" | "calendar" | "structured" | "transactions" | "portfolioPreference";
+
+export type AssetKey = keyof AumBreakdown;
+
+export type ModelPortfolios = Record<RiskProfile, Record<AssetKey, number>>;
