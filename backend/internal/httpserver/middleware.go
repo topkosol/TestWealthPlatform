@@ -6,19 +6,47 @@ package httpserver
 import (
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
 
-// corsMiddleware allows the local Vite dev server to call this API from
+// allowedOrigins returns the extra origins (beyond localhost/127.0.0.1)
+// permitted to call this API, configured via the comma-separated
+// ALLOWED_ORIGINS env var (e.g. "https://my-app.vercel.app").
+func allowedOrigins() []string {
+	raw := os.Getenv("ALLOWED_ORIGINS")
+	if raw == "" {
+		return nil
+	}
+	parts := strings.Split(raw, ",")
+	origins := make([]string, 0, len(parts))
+	for _, p := range parts {
+		if p = strings.TrimSpace(p); p != "" {
+			origins = append(origins, p)
+		}
+	}
+	return origins
+}
+
+// corsMiddleware allows the local Vite dev server, plus any origin listed
+// in ALLOWED_ORIGINS (e.g. the deployed frontend), to call this API from
 // the browser. Vite picks the next free port (5173, 5174, ...) when the
 // default is taken, so any localhost/127.0.0.1 origin is reflected back
 // rather than hard-coding a single port.
 func corsMiddleware(next http.Handler) http.Handler {
+	extra := allowedOrigins()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
 		if strings.HasPrefix(origin, "http://localhost:") || strings.HasPrefix(origin, "http://127.0.0.1:") {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
+		} else {
+			for _, o := range extra {
+				if origin == o {
+					w.Header().Set("Access-Control-Allow-Origin", origin)
+					break
+				}
+			}
 		}
 		w.Header().Set("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
